@@ -34,7 +34,7 @@ const UserSchema = new Schema({
         type: Number,
         default: 0
     }
-}, {timestamps: true, collection: 'users'});
+}, {timestamps: true, collection: 'users', toJSON: {virtuals: true}, toObject: {virtuals: true}});
 
 UserSchema.virtual('id').get(function () {
     return this._id.toHexString();
