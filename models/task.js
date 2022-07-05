@@ -12,7 +12,7 @@ const TaskSchema = new Schema({
     notification: {type: Boolean, default: true},
     files: {type: [String], default: []},
     remarks: {type: String},
-    status: {type: Number, required: true, default: 0},
+    status: {type: Boolean, required: true, default: false},
     createdBy: {type: Schema.Types.ObjectId, ref: 'User'},
 }, {timestamps: true, collection: 'tasks', toJSON: {virtuals: true}, toObject: {virtuals: true}});
 
