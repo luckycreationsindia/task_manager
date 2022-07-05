@@ -1,6 +1,6 @@
 let Model = require('../models/group');
 let APIError = require('../commons/APIError');
-let ObjectId = require('mongoose').Schema.Types.ObjectId
+let ObjectId = require('mongoose').Mongoose.ObjectId
 
 /**
  * @typedef { import("../commons/types").Group } Group
@@ -17,12 +17,10 @@ let add = (data) => {
         model.save().then((result) => {
             resolve(result)
         }).catch((err) => {
-            if (err) {
-                if (err['code'] === 11000) {
-                    reject(new APIError("Already Exist", 400))
-                }
-                reject(new APIError(err['message'], 500))
+            if (err['code'] === 11000) {
+                return reject(new APIError("Already Exist", 400))
             }
+            reject(new APIError(err['message'], 500))
         });
     });
 }
@@ -38,7 +36,7 @@ let update = (id, data) => {
         Model.findByIdAndUpdate(id, data, {new: true}).then((result) => {
             resolve(result)
         }).catch((err) => {
-            if (err) reject(new APIError(err['message'], 500))
+            reject(new APIError(err['message'], 500))
         });
     });
 }
@@ -55,7 +53,7 @@ let load = (filters = {}, projection = {}, options = {}) => {
         Model.find(filters, projection, options).then((result) => {
             resolve(result)
         }).catch((err) => {
-            if (err) reject(new APIError(err['message'], 500))
+            reject(new APIError(err['message'], 500))
         });
     });
 }
@@ -70,7 +68,7 @@ let remove = (id) => {
         Model.findByIdAndDelete(id).then((result) => {
             resolve(true)
         }).catch((err) => {
-            if (err) reject(new APIError(err['message'], 500))
+            reject(new APIError(err['message'], 500))
         });
     });
 }
